@@ -10,7 +10,7 @@ import { usePlayer } from '../../contexts/PlayerContext'
 export function Player() {
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const { episodeList, currentEpisodeIndex, isPlaying, isLooping, playNext, playPrevious, togglePlay, toggleLoop, setPlayingState, hasNext, hasPrevious } = usePlayer()
+  const { episodeList, currentEpisodeIndex, isPlaying, isLooping, isShuffling, playNext, playPrevious, togglePlay, toggleLoop, toggleShuffle, setPlayingState, hasNext, hasPrevious } = usePlayer()
 
   const episode = episodeList[currentEpisodeIndex]
 
@@ -74,7 +74,11 @@ export function Player() {
         }
 
         <div className={styles.buttons}>
-          <button type="button" disabled={!episode}>
+          <button
+            className={isShuffling ? styles.isActive : ''}
+            type="button"
+            disabled={!episode || episodeList.length === 1}
+          >
             <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
           <button type="button" onClick={playPrevious} disabled={!episode || !hasPrevious}>
